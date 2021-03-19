@@ -60,7 +60,6 @@ const styles = StyleSheet.create({
 	panel: {
 		padding: 20,
 		backgroundColor: '#fff',
-		paddingTop: 20,
 	},
 	panelHeader: {
 		alignItems: 'center',

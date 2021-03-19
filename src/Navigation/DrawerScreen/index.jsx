@@ -3,21 +3,19 @@ import { View, Text, StyleSheet } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
 import { useDispatch, useSelector } from 'react-redux';
-import MessageScreen from '../../Screens/MessageScreen';
 import SettingScreen from '../../Screens/SettingScreen';
 import Router from '../Router';
 import DrawerContent from './DrawerContent';
 import ProfileScreen from '../../Screens/ProfileScreen';
-import * as userActions from '../../redux/actions/userActions';
+import * as orderActions from '../../redux/actions/orderActions';
 
 const Drawer = createDrawerNavigator();
 
 const DrawerNav = (props) => {
 	const dispatch = useDispatch();
-	const uid = useSelector((state) => state.user.uid);
 
 	useEffect(() => {
-		dispatch(userActions.setUserId(props.uid));
+		dispatch(orderActions.setUserId(props.uid));
 	}, [props]);
 
 	return (
@@ -28,7 +26,6 @@ const DrawerNav = (props) => {
 			>
 				<Drawer.Screen name='Home' component={Router} />
 				<Drawer.Screen name='Profile' component={ProfileScreen} />
-				<Drawer.Screen name='Message' component={MessageScreen} />
 				<Drawer.Screen name='Setting' component={SettingScreen} />
 			</Drawer.Navigator>
 		</NavigationContainer>

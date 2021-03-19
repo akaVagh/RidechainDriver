@@ -19,9 +19,9 @@ import Animated from 'react-native-reanimated';
 import * as ImagePicker from 'expo-image-picker';
 import { useDispatch, useSelector } from 'react-redux';
 import styles from './styles';
-import * as userActions from '../../redux/actions/userActions';
+import * as orderActions from '../../redux/actions/orderActions';
 const ProfileScreen = (props) => {
-	const user = useSelector((state) => state.user.userData);
+	const user = useSelector((state) => state.order.userData);
 
 	const [image, setImage] = useState(
 		'https://api.adorable.io/avatars/80/abott@adorable.png'
@@ -29,21 +29,21 @@ const ProfileScreen = (props) => {
 	const sheet = useRef();
 	const dispatch = useDispatch();
 	const fall = new Animated.Value();
-	const uid = useSelector((state) => state.user.uid);
+	const uid = useSelector((state) => state.order.uid);
 	const [uploading, setUploading] = useState(false);
 	const [transferred, settransferred] = useState(0);
 	const [userData, setuserData] = useState(user);
 	const getUser = async () => {
 		await firebase
 			.firestore()
-			.collection('riders')
+			.collection('drivers')
 			.doc(uid)
 			.get()
 			.then((userSnapshot) => {
 				if (userSnapshot.exists) {
 					setuserData(userSnapshot.data());
 					//console.log('userSnapshot.data()', userSnapshot.data());
-					dispatch(userActions.setUserData(userSnapshot.data()));
+					dispatch(orderActions.setUserData(userSnapshot.data()));
 				}
 			});
 	};
@@ -168,7 +168,7 @@ const ProfileScreen = (props) => {
 		}
 		firebase
 			.firestore()
-			.collection('riders')
+			.collection('drivers')
 			.doc(uid)
 			.update({
 				first_name: userData.first_name,

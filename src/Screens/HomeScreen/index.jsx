@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
 	Text,
 	View,
@@ -17,12 +17,71 @@ import NewOrderPopup from '../../Components/NewOrderPopup';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import MapView, { PROVIDER_GOOGLE, Marker } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
-import { useNavigation } from '@react-navigation/core';
+import { useFocusEffect, useNavigation } from '@react-navigation/core';
+import * as firebase from 'firebase';
+import * as orderActions from '../../redux/actions/orderActions';
+import { useDispatch, useSelector } from 'react-redux';
 
 const origin = { latitude: 23.055028, longitude: 72.486222 };
 const destination = { latitude: 23.054928, longitude: 72.480822 };
 const GOOGLE_MAPS_APIKEY = 'AIzaSyAFcNY6a_668CtawRFZsw4xizaTX2ttt0Q';
 const HomeScreen = (props) => {
+	const [loading, setLoading] = useState(true);
+	const dispatch = useDispatch();
+	const uid = useSelector((state) => state.order.uid);
+	const getUser = async () => {
+		await firebase
+			.firestore()
+			.collection('drivers')
+			.doc(uid)
+			.get()
+			.then((userSnapshot) => {
+				if (userSnapshot.exists) {
+					//console.log('userSnapshot.data()----', userSnapshot.data());
+					dispatch(orderActions.setUserData(userSnapshot.data()));
+				}
+			});
+		if (loading) {
+			setLoading(false);
+		}
+	};
+	// useFocusEffect(
+	// 	useCallback(() => {
+	// 		getUser();
+	// 	})
+	// );
+
+	const getOrder = async () => {
+		await firebase
+			.firestore()
+			.collection('orders')
+			.get()
+			.then((querySnapshot) => {
+				const tempDoc = querySnapshot.docs.map((doc) => {
+					return { id: doc.id, ...doc.data() };
+				});
+				setNewOrder({
+					...newOrder,
+					id: tempDoc[0].id,
+					type: tempDoc[0].cabType,
+					originLatitude: tempDoc[0].origin.latitude,
+					originLongitude: tempDoc[0].origin.longitude,
+					destLatitude: tempDoc[0].destination.latitude,
+					destLongitude: tempDoc[0].destination.longitude,
+					user: {
+						rating: 4.8,
+						name: 'Elon',
+					},
+				});
+				dispatch(orderActions.setOrder(tempDoc[0]));
+			});
+	};
+	const orderData = useSelector((state) => state.order.orderData);
+	useEffect(() => {
+		getOrder();
+	}, []);
+	//console.log(`orderData`, orderData);
+
 	const navigation = useNavigation();
 	const [isOnline, setIsOnline] = useState(false);
 	const [myPosition, setMyPosition] = useState(null);
@@ -61,12 +120,13 @@ const HomeScreen = (props) => {
 	};
 
 	const onDirectionFound = (event) => {
+		//console.log(`event`, event);
 		if (order) {
 			setOrder({
 				...order,
 				distance: event.distance,
 				duration: event.duration,
-				pickedUp: order.pickedUp || event.distance < 0.2,
+				pickedUp: order.pickedUp || event.distance < 1,
 				isFinished: order.pickedUp && event.distance < 0.2,
 			});
 		}
@@ -193,9 +253,7 @@ const HomeScreen = (props) => {
 				onMapReady={() => {
 					PermissionsAndroid.request(
 						PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION
-					).then((granted) => {
-						alert(granted); // just to ensure that permissions were granted
-					});
+					);
 				}}
 				onUserLocationChange={onUserLocationChange}
 				//customMapStyle={require('../../assets/mapStyle.json')}
@@ -234,17 +292,11 @@ const HomeScreen = (props) => {
 				<Entypo name={'menu'} size={24} color='#4a4a4a' />
 			</Pressable>
 
-			<Pressable
-				onPress={() => console.warn({ data: 'Hey' })}
-				style={[styles.roundButton, { top: 20, right: 10 }]}
-			>
+			<Pressable style={[styles.roundButton, { top: 20, right: 10 }]}>
 				<Fontisto name={'search'} size={24} color='#4a4a4a' />
 			</Pressable>
 
-			<Pressable
-				onPress={() => console.warn({ data: 'Hey' })}
-				style={[styles.roundButton, { bottom: 110, left: 10 }]}
-			>
+			<Pressable style={[styles.roundButton, { bottom: 110, left: 10 }]}>
 				<MaterialCommunityIcons
 					name={'shield-car'}
 					size={24}
@@ -252,10 +304,7 @@ const HomeScreen = (props) => {
 				/>
 			</Pressable>
 
-			<Pressable
-				onPress={() => console.warn({ data: 'Hey' })}
-				style={[styles.roundButton, { bottom: 110, right: 10 }]}
-			>
+			<Pressable style={[styles.roundButton, { bottom: 110, right: 10 }]}>
 				<MaterialCommunityIcons
 					name={'message-alert'}
 					size={24}

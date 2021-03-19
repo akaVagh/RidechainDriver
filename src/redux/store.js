@@ -1,9 +1,9 @@
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
-import userReducer from './reducers/userReducer';
+import orderReducer from './reducers/orderReducer';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import logger from 'redux-logger';
-const rootReducer = combineReducers({ user: userReducer });
+const rootReducer = combineReducers({ order: orderReducer });
 
 const composeEnhancers =
 	typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__

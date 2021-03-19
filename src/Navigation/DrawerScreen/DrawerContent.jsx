@@ -5,11 +5,11 @@ import { useTheme, Avatar, Title, Drawer } from 'react-native-paper';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { MaterialCommunityIcons as Icon, Ionicons } from '@expo/vector-icons';
 import { useDispatch, useSelector } from 'react-redux';
-import firebase from 'firebase';
+import * as firebase from 'firebase';
 
 const DrawerContent = (props) => {
-	const userData = useSelector((state) => state.user.userData);
-
+	const userData = useSelector((state) => state.order.userData);
+	console.log(`userData`, userData);
 	return (
 		<View style={{ flex: 1 }}>
 			<DrawerContentScrollView {...props}>
@@ -78,6 +78,19 @@ const DrawerContent = (props) => {
 							label='Settings'
 							onPress={() => {
 								props.navigation.navigate('Setting');
+							}}
+						/>
+						<DrawerItem
+							icon={({ color, size }) => (
+								<Ionicons
+									name='settings-outline'
+									color={color}
+									size={size}
+								/>
+							)}
+							label='RideScreen'
+							onPress={() => {
+								props.navigation.navigate('Ride Screen');
 							}}
 						/>
 					</Drawer.Section>
