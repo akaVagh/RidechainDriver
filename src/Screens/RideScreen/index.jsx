@@ -21,7 +21,7 @@ const RideScreen = (props) => {
 						</Text>
 					</View>
 					<Text style={styles.bottomText}>
-						{order.userData.first_name}
+						{order.riderData.first_name}
 					</Text>
 				</View>
 			);
@@ -53,7 +53,7 @@ const RideScreen = (props) => {
 						</Text>
 					</View>
 					<Text style={{ ...styles.bottomText, color: 'red' }}>
-						Dropping Off {order.userData.first_name}
+						Dropping Off {order.riderData.first_name}
 					</Text>
 				</View>
 			);
@@ -86,7 +86,7 @@ const RideScreen = (props) => {
 						</Text>
 					</View>
 					<Text style={styles.bottomText}>
-						Picking up {order.userData.first_name}
+						Picking up {order.riderData.first_name}
 					</Text>
 				</View>
 			);

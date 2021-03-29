@@ -5,20 +5,36 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Avatar } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
-
+import * as firebase from 'firebase';
 import * as orderActions from '../../redux/actions/orderActions';
 import styles from './styles';
 
 const Orders = (props) => {
 	const dispatch = useDispatch();
 	const navigation = useNavigation();
-
+	const uid = useSelector((state) => state.order.uid);
+	const driverData = useSelector((state) => state.order.userData);
 	const orderList = useSelector((state) => state.order.orderList);
-	//console.log(`orderList`, orderList);
+
 	const handleList = (item) => {
 		dispatch(orderActions.setOrder(item));
 		dispatch(orderActions.emptyOrderList());
 		navigation.navigate('Ride Screen');
+		try {
+			firebase
+				.firestore()
+				.collection('Running Orders')
+				.doc(item.riderId)
+				.set({ ...item, dirverId: uid, driverData: driverData });
+
+			firebase
+				.firestore()
+				.collection('orders')
+				.doc(item.riderId)
+				.delete();
+		} catch (error) {
+			console.log('error', error);
+		}
 	};
 	const renderItem = ({ item }) => (
 		<View>
@@ -30,14 +46,15 @@ const Orders = (props) => {
 					<View style={styles.image}>
 						<Avatar.Image
 							source={{
-								uri: item.userData.imgUrl,
+								uri: item.riderData.imgUrl,
 							}}
 							size={75}
 						/>
 					</View>
 					<View style={styles.name_Container}>
 						<Text style={styles.name}>
-							{item.userData.first_name} {item.userData.last_name}
+							{item.riderData.first_name}{' '}
+							{item.riderData.last_name}
 						</Text>
 						<View style={styles.rating}>
 							<Text style={styles.rate}>4.5 </Text>

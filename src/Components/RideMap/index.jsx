@@ -7,6 +7,7 @@ import styles from './styles';
 import { useDispatch, useSelector } from 'react-redux';
 import { Entypo } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/core';
+import * as firebase from 'firebase';
 
 const GOOGLE_MAPS_APIKEY = 'AIzaSyAFcNY6a_668CtawRFZsw4xizaTX2ttt0Q';
 
@@ -23,7 +24,6 @@ const RideMap = (props) => {
 	const [myPosition, setMyPosition] = useState(null);
 	const mapRef = useRef(null);
 	const order = useSelector((state) => state.order.order);
-
 	useEffect(() => {
 		userCurrentLocation();
 	}, []);
@@ -71,6 +71,25 @@ const RideMap = (props) => {
 			latitude: order.origin.latitude,
 			longitude: order.origin.longitude,
 		};
+	};
+	const handleFinish = () => {
+		try {
+			firebase
+				.firestore()
+				.collection('History')
+				.doc(order.id)
+				.collection('Past Orders')
+				.doc(order.createdAt.toDate().toString())
+				.set(order);
+
+			firebase
+				.firestore()
+				.collection('Running Orders')
+				.doc(order.id)
+				.delete();
+		} catch (error) {
+			console.log('error', error);
+		}
 	};
 
 	return (
@@ -129,7 +148,7 @@ const RideMap = (props) => {
 			)}
 			{isPickedUp && isFinished && (
 				<View style={styles.finishBtn}>
-					<Pressable onPress={() => {}}>
+					<Pressable onPress={handleFinish}>
 						<Text style={styles.btnText}>Finish Ride</Text>
 					</Pressable>
 				</View>
