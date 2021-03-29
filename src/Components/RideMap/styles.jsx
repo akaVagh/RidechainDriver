@@ -11,7 +11,7 @@ const styles = StyleSheet.create({
 		left: '44.5%',
 		position: 'absolute',
 	},
-	position: {
+	drawerBtn: {
 		position: 'absolute',
 		top: '5%',
 		right: '5%',

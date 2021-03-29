@@ -119,7 +119,7 @@ const RideMap = (props) => {
 				<Marker coordinate={getDestination()} title={'Drop off'} />
 			</MapView>
 
-			<View style={styles.position}>
+			<View style={styles.drawerBtn}>
 				<Pressable onPress={() => navigation.openDrawer()}>
 					<Entypo name={'menu'} size={30} color='black' />
 				</Pressable>
