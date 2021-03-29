@@ -1,8 +1,9 @@
 import React from 'react';
-import { View, Text, StyleSheet, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, StatusBar, Pressable } from 'react-native';
 import { useSelector } from 'react-redux';
 import RideMap from '../../Components/RideMap';
 import { FontAwesome } from '@expo/vector-icons';
+
 import styles from './styles';
 
 const RideScreen = (props) => {
@@ -13,17 +14,8 @@ const RideScreen = (props) => {
 	const renderBottomTile = () => {
 		if (order && rideStatus.isFinished) {
 			return (
-				<View style={{ alignItems: 'center' }}>
-					<View
-						style={{
-							flexDirection: 'row',
-							alignItems: 'center',
-							justifyContent: 'center',
-							backgroundColor: '#cb1a1a',
-							width: 200,
-							padding: 10,
-						}}
-					>
+				<View style={styles.bottomContainer}>
+					<View style={styles.complete}>
 						<Text style={{ color: 'white', fontWeight: 'bold' }}>
 							COMPLETE {order.CabType}
 						</Text>
@@ -36,39 +28,31 @@ const RideScreen = (props) => {
 		}
 		if (order && rideStatus.isPickedUp) {
 			return (
-				<View style={{ alignItems: 'center' }}>
+				<View style={styles.bottomContainer}>
 					<View
 						style={{ flexDirection: 'row', alignItems: 'center' }}
 					>
-						<Text>
+						<Text style={styles.distText}>
 							{order.duration ? order.duration.toFixed(1) : '?'}{' '}
 							min
 						</Text>
 						<View
-							style={{
-								backgroundColor: '#d41212',
-								width: 30,
-								height: 30,
-								alignItems: 'center',
-								justifyContent: 'center',
-								borderRadius: 20,
-								marginHorizontal: 10,
-							}}
+							style={{ ...styles.userBg, backgroundColor: 'red' }}
 						>
 							<FontAwesome
 								name={'user'}
-								color={'white'}
+								color={'black'}
 								size={20}
 							/>
 						</View>
-						<Text>
+						<Text style={styles.distText}>
 							{pathData.distance
-								? pathData.distance.toString()
+								? pathData.distance.toFixed(1)
 								: '?'}{' '}
 							Kms
 						</Text>
 					</View>
-					<Text style={styles.bottomText}>
+					<Text style={{ ...styles.bottomText, color: 'red' }}>
 						Dropping Off {order.userData.first_name}
 					</Text>
 				</View>
@@ -77,11 +61,11 @@ const RideScreen = (props) => {
 
 		if (order) {
 			return (
-				<View style={{ alignItems: 'center' }}>
+				<View style={styles.bottomContainer}>
 					<View
 						style={{ flexDirection: 'row', alignItems: 'center' }}
 					>
-						<Text>
+						<Text style={styles.distText}>
 							{pathData.duration
 								? pathData.duration.toFixed(1)
 								: '?'}{' '}
@@ -94,7 +78,7 @@ const RideScreen = (props) => {
 								size={20}
 							/>
 						</View>
-						<Text>
+						<Text style={styles.distText}>
 							{pathData.distance
 								? pathData.distance.toFixed(1)
 								: '?'}{' '}
@@ -112,6 +96,7 @@ const RideScreen = (props) => {
 		<View style={styles.container}>
 			<StatusBar barStyle='light-content' backgroundColor='#000' />
 			<RideMap />
+
 			<View>{renderBottomTile()}</View>
 		</View>
 	);

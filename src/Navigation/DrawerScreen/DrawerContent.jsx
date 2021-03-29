@@ -80,19 +80,6 @@ const DrawerContent = (props) => {
 								props.navigation.navigate('Setting');
 							}}
 						/>
-						<DrawerItem
-							icon={({ color, size }) => (
-								<Ionicons
-									name='settings-outline'
-									color={color}
-									size={size}
-								/>
-							)}
-							label='RideScreen'
-							onPress={() => {
-								props.navigation.navigate('Ride Screen');
-							}}
-						/>
 					</Drawer.Section>
 				</View>
 			</DrawerContentScrollView>

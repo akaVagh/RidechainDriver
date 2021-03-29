@@ -5,15 +5,18 @@ const styles = StyleSheet.create({
 	},
 	bottomContainer: {
 		height: 100,
-		backgroundColor: 'white',
-		flexDirection: 'row',
-		justifyContent: 'space-between',
 		alignItems: 'center',
-		padding: 15,
+		backgroundColor: '#000000',
 	},
 	bottomText: {
 		fontSize: 25,
-		color: '#4a4a4a',
+		color: '#00ff40',
+		fontWeight: '900',
+	},
+	distText: {
+		fontSize: 15,
+		color: '#fff',
+		fontWeight: '700',
 	},
 	userBg: {
 		backgroundColor: '#1e9203',
@@ -23,6 +26,14 @@ const styles = StyleSheet.create({
 		justifyContent: 'center',
 		borderRadius: 20,
 		marginHorizontal: 10,
+	},
+	complete: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		justifyContent: 'center',
+		backgroundColor: '#cb1a1a',
+		width: 200,
+		padding: 10,
 	},
 });
 

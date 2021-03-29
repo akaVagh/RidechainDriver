@@ -1,14 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Image, View, Pressable, Dimensions } from 'react-native';
+import { Image, View, Pressable, Dimensions, Text } from 'react-native';
 import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import MapViewDirections from 'react-native-maps-directions';
 import * as orderActions from '../../redux/actions/orderActions';
 import styles from './styles';
 import { useDispatch, useSelector } from 'react-redux';
+import { Entypo } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/core';
+
 const GOOGLE_MAPS_APIKEY = 'AIzaSyAFcNY6a_668CtawRFZsw4xizaTX2ttt0Q';
 
 const RideMap = (props) => {
 	const dispatch = useDispatch();
+	const navigation = useNavigation();
+
 	const [region, setRegion] = useState({
 		latitudeDelta: 0.0222,
 		longitudeDelta: 0.0121,
@@ -49,10 +54,11 @@ const RideMap = (props) => {
 	const isPickedUp = useSelector(
 		(state) => state.order.rideStatus.isPickedUp
 	);
+	const isFinished = useSelector(
+		(state) => state.order.rideStatus.isFinished
+	);
 	const onDirectionFound = (event) => {
 		dispatch(orderActions.setRidePath(event));
-		dispatch(orderActions.setPickedUP(event.distance < 0.1));
-		dispatch(orderActions.setFinished(isPickedUp && event.distance < 0.1));
 	};
 	const getDestination = () => {
 		if (order && isPickedUp) {
@@ -93,6 +99,41 @@ const RideMap = (props) => {
 
 				<Marker coordinate={getDestination()} title={'Drop off'} />
 			</MapView>
+
+			<View style={styles.position}>
+				<Pressable onPress={() => navigation.openDrawer()}>
+					<Entypo name={'menu'} size={30} color='black' />
+				</Pressable>
+			</View>
+			{isPickedUp === false && (
+				<View style={styles.pickUpBtn}>
+					<Pressable
+						onPress={() => {
+							dispatch(orderActions.setPickedUP(true));
+						}}
+					>
+						<Text style={styles.btnText}>Pick Up</Text>
+					</Pressable>
+				</View>
+			)}
+			{isPickedUp && isFinished === false && (
+				<View style={{ ...styles.pickUpBtn, backgroundColor: 'red' }}>
+					<Pressable
+						onPress={() => {
+							dispatch(orderActions.setFinished(true));
+						}}
+					>
+						<Text style={styles.btnText}>Drop Rider</Text>
+					</Pressable>
+				</View>
+			)}
+			{isPickedUp && isFinished && (
+				<View style={styles.finishBtn}>
+					<Pressable onPress={() => {}}>
+						<Text style={styles.btnText}>Finish Ride</Text>
+					</Pressable>
+				</View>
+			)}
 		</View>
 	);
 };

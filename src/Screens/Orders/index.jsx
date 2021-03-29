@@ -4,17 +4,21 @@ import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
 import { useDispatch, useSelector } from 'react-redux';
 import { Avatar } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
+import { useNavigation } from '@react-navigation/core';
 
 import * as orderActions from '../../redux/actions/orderActions';
 import styles from './styles';
 
 const Orders = (props) => {
 	const dispatch = useDispatch();
+	const navigation = useNavigation();
+
 	const orderList = useSelector((state) => state.order.orderList);
 	//console.log(`orderList`, orderList);
 	const handleList = (item) => {
 		dispatch(orderActions.setOrder(item));
 		dispatch(orderActions.emptyOrderList());
+		navigation.navigate('Ride Screen');
 	};
 	const renderItem = ({ item }) => (
 		<View>
