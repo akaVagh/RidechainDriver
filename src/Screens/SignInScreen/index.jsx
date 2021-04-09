@@ -52,6 +52,7 @@ const SignInScreen = ({ navigation }) => {
 							new Date()
 						),
 						userImg: null,
+						rating: 0,
 					});
 				console.log(result);
 			});

@@ -73,6 +73,7 @@ const RideMap = (props) => {
 		};
 	};
 	const handleFinish = () => {
+		navigation.navigate('Home Screen');
 		try {
 			firebase
 				.firestore()

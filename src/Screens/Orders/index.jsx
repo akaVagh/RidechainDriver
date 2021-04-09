@@ -19,6 +19,9 @@ const Orders = (props) => {
 	const handleList = (item) => {
 		dispatch(orderActions.setOrder(item));
 		dispatch(orderActions.emptyOrderList());
+		dispatch(orderActions.setPickedUP(false));
+		dispatch(orderActions.setFinished(false));
+
 		navigation.navigate('Ride Screen');
 		try {
 			firebase

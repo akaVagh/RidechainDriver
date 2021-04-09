@@ -62,8 +62,8 @@ const SignUpScreen = ({ navigation }) => {
 									new Date()
 								),
 								mobileNo: '',
-
 								userImg: null,
+								rating: 0,
 							});
 					})
 					.catch((error) => {

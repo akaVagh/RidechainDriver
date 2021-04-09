@@ -33,6 +33,7 @@
 		"react-native-paper": "^4.7.1",
 		"react-native-phone-number-input": "^2.0.0",
 		"react-native-places-input": "^1.1.7",
+		"react-native-ratings": "^7.6.1",
 		"react-native-reanimated": "~1.13.0",
 		"react-native-redash": "^16.0.8",
 		"react-native-safe-area-context": "3.1.9",
