@@ -9,5 +9,6 @@ npm-debug.*
 *.orig.*
 web-build/
 src/Components/firebase
+src/Components/GoogleApi
 # macOS
 .DS_Store
