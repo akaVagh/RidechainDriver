@@ -1,5 +1,3 @@
-src/Components/firebase
-src/Components/GoogleApi
 node_modules/**/*
 .expo/*
 npm-debug.*
