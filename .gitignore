@@ -1,3 +1,5 @@
+src/Components/firebase
+src/Components/GoogleApi
 node_modules/**/*
 .expo/*
 npm-debug.*
@@ -8,7 +10,5 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
-src/Components/firebase
-src/Components/GoogleApi
 # macOS
 .DS_Store
