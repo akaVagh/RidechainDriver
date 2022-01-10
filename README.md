@@ -7,7 +7,7 @@
 <img src="images/3.png" width="270" height="570"> &emsp; <img src="images/4.png" width="270" height="570"> <br/><br/>
 
 3. Drawer menu and Home Screen and Edit profile<br/><br/>
-<img src="images/5.png" width="270" height="570"> &emsp; <img src="images/6.png" width="270" height="570"> &emsp; <img src="images/7.png" width="270" height="570"> <br/><br/>
+<img src="images/6.1.png" width="270" height="570"> &emsp; <img src="images/62.png" width="270" height="570"> &emsp; <img src="images/7.png" width="270" height="570"> <br/><br/>
 
 4. Selecting and Picking up rider <br/><br/>
 <img src="images/8.png" width="270" height="570"> &nbsp; <img src="images/9.png" width="270" height="570"> <br/><br/>
